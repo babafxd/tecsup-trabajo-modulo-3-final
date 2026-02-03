@@ -1,0 +1,14 @@
+package pe.edu.tecsup.msaavedra.micro.course.domain.repository;
+
+import pe.edu.tecsup.msaavedra.micro.course.domain.model.Course;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface CourseRepository {
+    List<Course> findAll();
+    Optional<Course> findById(Long id);
+    Course save(Course product);
+    void deleteById(Long id);
+    boolean existsById(Long id);
+}

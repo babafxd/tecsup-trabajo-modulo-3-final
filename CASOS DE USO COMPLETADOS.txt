@@ -1,0 +1,15 @@
+CASOS DE USO
+Caso 1: Publicar curso (OK) 
+Admin crea curso
+Admin publica curso (POST /courses/{id}/publish)
+course-service emite evento opcional CoursePublishedEvent (OK)
+todos los endpoints (OK)
+
+
+
+Caso 2: Solicitud de matrícula
+Cliente llama POST /enrollments
+enrollment-service valida usuario y curso vía RestTemplate
+Matrícula queda en estado PENDING_PAYMENT
+enrollment-service publica EnrollmentCreatedEvent
+notification-service notifica al estudiante
