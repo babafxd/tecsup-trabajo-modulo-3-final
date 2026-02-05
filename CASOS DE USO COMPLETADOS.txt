@@ -6,6 +6,7 @@ course-service emite evento opcional CoursePublishedEvent (OK)
 todos los endpoints (OK)
 
 
+* Se completo service de users.
 
 Caso 2: Solicitud de matrícula
 Cliente llama POST /enrollments

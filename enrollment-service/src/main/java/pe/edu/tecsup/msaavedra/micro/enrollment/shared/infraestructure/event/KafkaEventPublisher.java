@@ -1,12 +1,12 @@
-package pe.edu.tecsup.msaavedra.micro.course.shared.infraestructure.event;
+package pe.edu.tecsup.msaavedra.micro.enrollment.shared.infraestructure.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import pe.edu.tecsup.msaavedra.micro.course.domain.event.CoursePublishedEvent;
-import pe.edu.tecsup.msaavedra.micro.course.shared.domain.event.DomainEvent;
-import pe.edu.tecsup.msaavedra.micro.course.shared.infraestructure.config.KafkaConfig;
+import pe.edu.tecsup.msaavedra.micro.enrollment.domain.event.EnrollmentCreatedEvent;
+import pe.edu.tecsup.msaavedra.micro.enrollment.shared.domain.event.DomainEvent;
+import pe.edu.tecsup.msaavedra.micro.enrollment.shared.infraestructure.config.KafkaConfig;
 
 @Slf4j
 @Component
@@ -17,12 +17,11 @@ public class KafkaEventPublisher {
 
     private String getTopicFromEvent(DomainEvent event) {
 
-        if ( event instanceof CoursePublishedEvent) {
-            return KafkaConfig.COURSE_EVENTS_TOPIC;
+        if (event instanceof EnrollmentCreatedEvent) {
+            return KafkaConfig.ENROLLMENT_EVENTS_TOPIC;
         } else {
             throw new IllegalArgumentException("Unknown event type: " + event.getEventType());
         }
-
     }
 
     public void publish(DomainEvent event) {
@@ -38,4 +37,5 @@ public class KafkaEventPublisher {
                 event
         );
     }
+
 }
