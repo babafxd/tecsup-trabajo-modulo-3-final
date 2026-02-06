@@ -22,17 +22,13 @@ Microservicios:
 Worker:
 - payment-service
 
-
-
 **Se realizaron las pruebas con todos los CASOS DE USO:**
 
 Caso 1: Publicar curso (OK) 
-
-	Admin crea curso
-	Admin publica curso (POST /courses/{id}/publish)
-	course-service emite evento opcional CoursePublishedEvent (OK)
-	todos los endpoints (OK)
-
+- Admin crea curso
+- Admin publica curso (POST /courses/{id}/publish)
+- course-service emite evento opcional CoursePublishedEvent (OK)
+- todos los endpoints (OK)
 
 * Se completo service de users.**
 
@@ -47,17 +43,14 @@ Caso 2:
 	
 Caso 3: Pago
 - Cliente llama POST /payments (OK)
-
 - payment-service registra pago y publica:
 		PaymentApprovedEvent (OK) >= 100
-		PaymentRejectedEvent (OK) <= 1
-	
+		PaymentRejectedEvent (OK) <= 1	
 - enrollment-service consume evento y actualiza matrícula: (OK)
-		CONFIRMED o CANCELLED
-		
+		CONFIRMED o CANCELLED	
 - enrollment-service publica EnrollmentUpdatedEvent  (OK)
 - notification-service notifica el resultado final   (OK)
-	
+
 ENDPOINTS:
 - payment-service	/payments	POST	Registrar pago   (OK)
 - payment-service	/payments/{id}	GET	Consultar pago   (OK)
