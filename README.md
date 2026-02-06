@@ -36,30 +36,31 @@ Caso 1: Publicar curso (OK)
 
 * Se completo service de users.**
 
-Caso 2: Solicitud de matrícula (OK)
-	Cliente llama POST /enrollments
-	enrollment-service valida usuario y curso vía RestTemplate
-	Matrícula queda en estado PENDING_PAYMENT
-	enrollment-service publica EnrollmentCreatedEvent
-	notification-service notifica al estudiante
-	todos los endpoints (OK)
+Caso 2: 
+- Solicitud de matrícula (OK)
+- Cliente llama POST /enrollments
+- enrollment-service valida usuario y curso vía RestTemplate
+- Matrícula queda en estado PENDING_PAYMENT
+- enrollment-service publica EnrollmentCreatedEvent
+- notification-service notifica al estudiante
+- todos los endpoints (OK)
 	
 Caso 3: Pago
-	Cliente llama POST /payments (OK)
+- Cliente llama POST /payments (OK)
 
-	payment-service registra pago y publica:
+- payment-service registra pago y publica:
 		PaymentApprovedEvent (OK) >= 100
 		PaymentRejectedEvent (OK) <= 1
 	
-	enrollment-service consume evento y actualiza matrícula: (OK)
+- enrollment-service consume evento y actualiza matrícula: (OK)
 		CONFIRMED o CANCELLED
 		
-	enrollment-service publica EnrollmentUpdatedEvent  (OK)
-	notification-service notifica el resultado final   (OK)
+- enrollment-service publica EnrollmentUpdatedEvent  (OK)
+- notification-service notifica el resultado final   (OK)
 	
-	ENDPOINTS:
-	payment-service	/payments	POST	Registrar pago   (OK)
-	payment-service	/payments/{id}	GET	Consultar pago   (OK)
+ENDPOINTS:
+- payment-service	/payments	POST	Registrar pago   (OK)
+- payment-service	/payments/{id}	GET	Consultar pago   (OK)
 
 
 publicar curso → matrícula → pago → confirmación → notificación
