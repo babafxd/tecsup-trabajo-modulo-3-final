@@ -1,13 +1,13 @@
 # MARCO SAAVEDRA: TRABAJO FINAL
 
 ## **Indicaciones**
-**Cada proyecto tiene su carpeta database para ejecutar su script:
+**Cada proyecto tiene su carpeta database para ejecutar su script**
 
 
-**Se adjunta archivo yml para los contenedores,base de datos y Kafka:
+**Se adjunta archivo yml para los contenedores,base de datos y Kafka:**
 docker-compose.yml
 
-**Se adjunta archivo json para las pruebas:
+**Se adjunta archivo json para las pruebas:**
 MSAAVEDRA-POSTMAN.postman_collection.json
 
 
@@ -24,7 +24,7 @@ Worker:
 
 
 
-**Se realizaron las pruebas con todos los CASOS DE USO:
+**Se realizaron las pruebas con todos los CASOS DE USO:**
 
 Caso 1: Publicar curso (OK) 
 
@@ -34,7 +34,7 @@ Caso 1: Publicar curso (OK)
 	todos los endpoints (OK)
 
 
-* Se completo service de users.
+* Se completo service de users.**
 
 Caso 2: Solicitud de matrícula (OK)
 	Cliente llama POST /enrollments
