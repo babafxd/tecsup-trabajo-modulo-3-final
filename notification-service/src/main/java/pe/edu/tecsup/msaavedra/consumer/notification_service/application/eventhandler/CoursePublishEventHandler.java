@@ -21,7 +21,7 @@ public class CoursePublishEventHandler {
 
     @KafkaListener(
             topics = KafkaConfig.COURSE_EVENTS_TOPIC,
-            groupId = "notifications-service-group-4"
+            groupId = "notifications-service-group"
     )
     public void handleEvents(String message) throws InterruptedException {
         try {

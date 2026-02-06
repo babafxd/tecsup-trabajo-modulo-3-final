@@ -34,7 +34,7 @@ public class Enrollment {
 
 
     public enum EnrollmentStatus {
-        PENDING_PAYMENT
+        PENDING_PAYMENT, CONFIRMED, CANCELLED
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.tecsup.msaavedra.micro.enrollment.application.usecase.EnrollmentStudenUseCase;
 import pe.edu.tecsup.msaavedra.micro.enrollment.application.usecase.GetEnrollmentByIdUseCase;
 import pe.edu.tecsup.msaavedra.micro.enrollment.application.usecase.GetEnrollmentByUserUseCase;
+import pe.edu.tecsup.msaavedra.micro.enrollment.application.usecase.UpdateEnrollmentUseCase;
 import pe.edu.tecsup.msaavedra.micro.enrollment.domain.model.Enrollment;
 
 import java.util.List;
@@ -19,10 +20,16 @@ public class EnrollmentApplicationService {
     private final EnrollmentStudenUseCase enrollmentStudenUseCase;
     private final GetEnrollmentByIdUseCase getEnrollmentByIdUseCase;
     private final GetEnrollmentByUserUseCase getEnrollmentByUserUseCase;
+    private final UpdateEnrollmentUseCase updateEnrollmentUseCase;
 
     @Transactional
     public Enrollment enrollmentStudent(Enrollment enrollment) {
         return enrollmentStudenUseCase.execute(enrollment);
+    }
+
+    @Transactional
+    public Enrollment updateEnrollment(Long id, Enrollment.EnrollmentStatus status) {
+        return updateEnrollmentUseCase.execute(id, status);
     }
 
     @Transactional(readOnly = true)

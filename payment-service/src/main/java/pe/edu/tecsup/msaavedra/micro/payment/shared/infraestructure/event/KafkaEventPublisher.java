@@ -1,13 +1,13 @@
-package pe.edu.tecsup.msaavedra.micro.enrollment.shared.infraestructure.event;
+package pe.edu.tecsup.msaavedra.micro.payment.shared.infraestructure.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import pe.edu.tecsup.msaavedra.micro.enrollment.domain.event.EnrollmentCreatedEvent;
-import pe.edu.tecsup.msaavedra.micro.enrollment.domain.event.EnrollmentUpdatedEvent;
-import pe.edu.tecsup.msaavedra.micro.enrollment.shared.domain.event.DomainEvent;
-import pe.edu.tecsup.msaavedra.micro.enrollment.shared.infraestructure.config.KafkaConfig;
+import pe.edu.tecsup.msaavedra.micro.payment.domain.event.PaymentApprovedEvent;
+import pe.edu.tecsup.msaavedra.micro.payment.domain.event.PaymentRejectedEvent;
+import pe.edu.tecsup.msaavedra.micro.payment.shared.domain.event.DomainEvent;
+import pe.edu.tecsup.msaavedra.micro.payment.shared.infraestructure.config.KafkaConfig;
 
 @Slf4j
 @Component
@@ -18,8 +18,8 @@ public class KafkaEventPublisher {
 
     private String getTopicFromEvent(DomainEvent event) {
 
-        if (event instanceof EnrollmentCreatedEvent || event instanceof EnrollmentUpdatedEvent) {
-            return KafkaConfig.ENROLLMENT_EVENTS_TOPIC;
+        if (event instanceof PaymentRejectedEvent || event instanceof PaymentApprovedEvent) {
+            return KafkaConfig.PAYMENT_EVENTS_TOPIC;
         } else {
             throw new IllegalArgumentException("Unknown event type: " + event.getEventType());
         }
@@ -28,9 +28,8 @@ public class KafkaEventPublisher {
     public void publish(DomainEvent event) {
         log.info("Publicando: {} [{}]", event.getEventType(), event.getEventId());
 
-
         String topic = getTopicFromEvent(event);
-        String key = event.getKey(); // devuelva el course Id
+        String key = event.getKey();
 
         kafkaTemplate.send(
                 topic,

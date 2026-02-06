@@ -20,7 +20,7 @@ public class EnrollmentEventHandler {
 
     @KafkaListener(
             topics = KafkaConfig.ENROLLMENT_EVENTS_TOPIC,
-            groupId = "enrollments-service-group-4"
+            groupId = "enrollments-service-group"
     )
     public void handleEvents(String message) throws InterruptedException {
         try {

@@ -1,4 +1,4 @@
-package pe.edu.tecsup.msaavedra.micro.enrollment.presentation.controller;
+package pe.edu.tecsup.msaavedra.micro.payment.presentation.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import pe.edu.tecsup.msaavedra.micro.enrollment.domain.exception.*;
+import pe.edu.tecsup.msaavedra.micro.payment.domain.exception.EnrollmentNotFoundException;
+import pe.edu.tecsup.msaavedra.micro.payment.domain.exception.InvalidPaymentDataException;
+import pe.edu.tecsup.msaavedra.micro.payment.domain.exception.PaymentNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.Map;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
 
     @ExceptionHandler(EnrollmentNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEnrollmentNotFoundException(EnrollmentNotFoundException ex) {
@@ -30,9 +33,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CourseNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCourseNotFoundException(CourseNotFoundException ex) {
-        log.error("Course not found: {}", ex.getMessage());
+    @ExceptionHandler(PaymentNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePaymentNotFoundException(PaymentNotFoundException ex) {
+        log.error("Payment not found: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 ex.getMessage(),
@@ -41,9 +44,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(InvalidCourseDataException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidCourseDataException(InvalidCourseDataException ex) {
-        log.error("Invalid course data: {}", ex.getMessage());
+    @ExceptionHandler(InvalidPaymentDataException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPaymentDataException(InvalidPaymentDataException ex) {
+        log.error("Invalid payment data: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
@@ -52,32 +55,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCourseNotFoundException(UserNotFoundException ex) {
-        log.error("User not found: {}", ex.getMessage());
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                ex.getMessage(),
-                LocalDateTime.now()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
-
-    @ExceptionHandler(InvalidUserDataException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidCourseDataException(InvalidUserDataException ex) {
-        log.error("Invalid user data: {}", ex.getMessage());
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                ex.getMessage(),
-                LocalDateTime.now()
-        );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
 
     /*
-    * Manejo de validaciones al DTO
-    *
-    * */
+     * Manejo de validaciones al DTO
+     *
+     * */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -134,5 +116,4 @@ public class GlobalExceptionHandler {
         private String timestamp;
         private Map<String, String> errors;
     }
-
 }
