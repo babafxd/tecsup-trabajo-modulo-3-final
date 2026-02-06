@@ -1,6 +1,8 @@
 # MARCO SAAVEDRA: TRABAJO FINAL
 
 ## **Indicaciones**
+**Cada proyecto tiene su carpeta database para ejecutar su script:
+
 
 **Se adjunta archivo yml para los contenedores,base de datos y Kafka:
 docker-compose.yml

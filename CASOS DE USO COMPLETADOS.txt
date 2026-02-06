@@ -33,3 +33,6 @@ Caso 3: Pago
 	ENDPOINTS:
 	payment-service	/payments	POST	Registrar pago   (OK)
 	payment-service	/payments/{id}	GET	Consultar pago   (OK)
+
+
+publicar curso → matrícula → pago → confirmación → notificación
