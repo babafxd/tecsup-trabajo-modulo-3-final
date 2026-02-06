@@ -5,10 +5,10 @@
 
 
 **Se adjunta archivo yml para los contenedores,base de datos y Kafka.**
-docker-compose.yml
+- docker-compose.yml
 
 **Se adjunta archivo json para las pruebas:**
-MSAAVEDRA-POSTMAN.postman_collection.json
+- MSAAVEDRA-POSTMAN.postman_collection.json
 
 
 El proyecto consta de 4 microservicios y 1 worker para notificaciones
