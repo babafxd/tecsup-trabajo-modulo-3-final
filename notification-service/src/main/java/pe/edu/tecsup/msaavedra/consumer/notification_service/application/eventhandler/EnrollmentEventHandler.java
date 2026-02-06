@@ -1,40 +1,59 @@
 package pe.edu.tecsup.msaavedra.consumer.notification_service.application.eventhandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import pe.edu.tecsup.msaavedra.consumer.notification_service.domain.event.DomainEvent;
 import pe.edu.tecsup.msaavedra.consumer.notification_service.domain.event.EnrollmentCreatedEvent;
+import pe.edu.tecsup.msaavedra.consumer.notification_service.domain.event.EnrollmentUpdatedEvent;
 import pe.edu.tecsup.msaavedra.consumer.notification_service.infraestructure.config.KafkaConfig;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
+@KafkaListener(
+        topics = KafkaConfig.ENROLLMENT_EVENTS_TOPIC,
+        groupId = "enrollments-service-group"
+)
 public class EnrollmentEventHandler {
 
-    private final ObjectMapper objectMapper;
-
-    public EnrollmentEventHandler(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    @KafkaHandler
+    public void handleApproved(EnrollmentCreatedEvent event) {
+        String message = "✅ Enrollment Pendiente de pago, ID " + event.getEnrollmentId();
+        handleEnrollment(event.getStudentEmail(), message);
     }
 
-    @KafkaListener(
-            topics = KafkaConfig.ENROLLMENT_EVENTS_TOPIC,
-            groupId = "enrollments-service-group"
-    )
-    public void handleEvents(String message) throws InterruptedException {
-        try {
-            EnrollmentCreatedEvent event = objectMapper.readValue(message, EnrollmentCreatedEvent.class);
-            handleEnrollment(event);
-        } catch (Exception e) {
-            log.error("Error parsing Enrollment event: {}", e.getMessage());
+    @KafkaHandler
+    public void handleRejected(EnrollmentUpdatedEvent event) {
+
+        String message = "";
+        if(event.getStatus().equalsIgnoreCase(EnrollmentStatus.CONFIRMED.toString()))
+        {
+            message = "✅ Enrollment CONFIRMADO : ID " + event.getEnrollmentId();
         }
+
+        if(event.getStatus().equalsIgnoreCase(EnrollmentStatus.CANCELLED.toString()))
+        {
+            message = "❌ Enrollment CANCELADO : ID " + event.getEnrollmentId();
+        }
+
+        handleEnrollment(event.getStudentEmail(), message);
     }
 
-    public void handleEnrollment(EnrollmentCreatedEvent event) throws InterruptedException {
+    public enum EnrollmentStatus {
+        PENDING_PAYMENT, CONFIRMED, CANCELLED
+    }
+
+    @KafkaHandler(isDefault = true)
+    public void handleUnknown(Object event) {
+        log.warn("❓ Evento de pago desconocido o no soportado: {}", event.getClass().getName());
+    }
+
+    public void handleEnrollment(String email, String subject) {
         log.info("[{}] Sending notifications...", Thread.currentThread().getName());
-        Thread.sleep(1000);
-        log.info("Email sent for enrollment course to: {}", event.getStudentEmail());
+        log.info("Email sent for enrollment course to: {}, subject: {}", email, subject);
 
     }
 

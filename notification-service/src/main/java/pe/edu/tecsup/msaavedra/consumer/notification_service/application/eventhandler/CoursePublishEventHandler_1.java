@@ -1,37 +1,33 @@
 package pe.edu.tecsup.msaavedra.consumer.notification_service.application.eventhandler;
 
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import pe.edu.tecsup.msaavedra.consumer.notification_service.domain.event.CoursePublishedEvent;
-import pe.edu.tecsup.msaavedra.consumer.notification_service.domain.event.EnrollmentCreatedEvent;
-import pe.edu.tecsup.msaavedra.consumer.notification_service.domain.event.EnrollmentUpdatedEvent;
 import pe.edu.tecsup.msaavedra.consumer.notification_service.infraestructure.config.KafkaConfig;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
-@KafkaListener(
-        topics = KafkaConfig.COURSE_EVENTS_TOPIC,
-        groupId = "notifications-service-group"
-)
-public class CoursePublishEventHandler {
+public class CoursePublishEventHandler_1 {
 
-    @KafkaHandler
-    public void handlePublished(CoursePublishedEvent event) {
+    private final ObjectMapper objectMapper;
+
+    public CoursePublishEventHandler_1(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    @KafkaListener(
+            topics = KafkaConfig.COURSE_EVENTS_TOPIC,
+            groupId = "notifications-service-group"
+    )
+    public void handleEvents(String message) throws InterruptedException {
         try {
+            CoursePublishedEvent event = objectMapper.readValue(message, CoursePublishedEvent.class);
             handleCoursePublished(event);
         } catch (Exception e) {
             log.error("Error parsing Course event: {}", e.getMessage());
         }
-    }
-
-
-    @KafkaHandler(isDefault = true)
-    public void handleUnknown(Object event) {
-        log.warn("❓ Evento de publicacion desconocido o no soportado: {}", event.getClass().getName());
     }
 
     public void handleCoursePublished(CoursePublishedEvent event) throws InterruptedException {
@@ -40,5 +36,6 @@ public class CoursePublishEventHandler {
         log.info("Publishing course: {}", event.getTitle());
 
     }
+
 
 }
