@@ -1,0 +1,17 @@
+
+1.- ** CREACION Y PUBLICACIÓN DE CURSO 
+			=> Al publicar emite CoursePublishedEvent => Notification-Service
+
+2.- ** SOLICITUD DE MATRICULA 
+			=> consume User-Service y Course-Service (validaciones)
+			=> publica evento EnrollmentCreatedEvent
+			=> Notification-Service consume el evento emitido
+			
+3.- ** PAGOS
+			=> Registra el pago y emite los eventos:
+				PaymentApprovedEvent (OK) >= 100.00 S/.
+				PaymentRejectedEvent (OK) <=   1.00 S/.
+			
+			=> Enrollment-Service consume el evento y actualiza la matrícula
+			=> Enrollment-Service emite el evento EnrollmentUpdatedEvent
+			=> Notification-Service consume el evento emitido
