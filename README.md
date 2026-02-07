@@ -20,7 +20,7 @@ Microservicios:
 - Payment		: http://localhost:8085/api/payments
 
 Worker:
-- payment-service
+- notification-service
 
 **Se realizaron las pruebas con todos los CASOS DE USO:**
 
